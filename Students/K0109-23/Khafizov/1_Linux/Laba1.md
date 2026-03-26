@@ -2,10 +2,16 @@
 
 ## Блок 1 - Namespaces
 `lsns` - список namespace-ов системы
+<img width="667" height="457" alt="Снимок экрана от 2026-03-26 16-59-52" src="https://github.com/user-attachments/assets/8300ec79-dc99-4428-8dd5-8fe320cdc9f7" />
+
 
 `echo $$` - внутри нового PID namespace(должно быть 1 или маленькое число)
+<img width="667" height="45" alt="Снимок экрана от 2026-03-26 17-01-15" src="https://github.com/user-attachments/assets/130c186e-8ffd-4316-91f0-cfefd62b1b65" />
+
 
 `ip link` в новом NET namespace(только Io)
+<img width="667" height="62" alt="Снимок экрана от 2026-03-26 17-02-03" src="https://github.com/user-attachments/assets/0da8183a-8565-46c6-839a-5eec7c4663ab" />
+
 
 **Контрольный вопрос:** Почему после `exit` процессы хоста остались нетронутыми?
 
