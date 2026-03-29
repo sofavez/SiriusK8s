@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # Добавьте для отладки
+    ports:
+      - "5432:5432"  # опционально, для проверки извне
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"  # Добавьте эту строку
+    environment:
+      DB_HOST: db
+      DB_NAME: mydb
+      DB_USER: user
+      DB_PASS: pass
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # Вариант 1: Использовать curl (если установлен в Dockerfile)
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      # Вариант 2: Использовать wget (если установлен)
+      # test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
+      # Вариант 3: Использовать Python (самый надежный, если wget/curl нет)
+      # test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s  # Добавьте grace period для запуска
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  pgdata:
