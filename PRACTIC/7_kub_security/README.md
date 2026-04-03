@@ -411,7 +411,8 @@ kubectl exec frontend -n netpol-demo -- cat /etc/shadow 2>/dev/null || true
 
 ## Что сдать преподавателю
 
-1. `kubectl auth can-i list pods -n rbac-demo --as=system:serviceaccount:rbac-demo:app-reader` → **yes**
+1. `kubectl auth can-i list pods -n rbac-demo --as=system:serviceaccount:rbac-demo:app-rbash
+eader` → **yes**
 2. `kubectl auth can-i delete pods -n rbac-demo --as=system:serviceaccount:rbac-demo:app-reader` → **no**
 3. `kubectl exec frontend -- wget database-svc` → **timeout** (NetworkPolicy работает)
 4. `kubectl exec backend -- wget database-svc` → **200 OK**

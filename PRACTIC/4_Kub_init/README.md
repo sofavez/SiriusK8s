@@ -197,6 +197,6 @@ kubectl get pod my-webserver
 | Проблема | Решение |
 |----------|---------|
 | Pod в состоянии `ImagePullBackOff` | Нет интернета или неверное имя образа |
-| Pod `Pending` — не назначается нода | `kubectl describe pod` → Events → смотреть причину (taint, ресурсы) |
+| Pod `Pending` — не назначается нода | `kubectl describe pod` → Events → смотреть причину (taintmd, ресурсы) |
 | `Error: container "log-sidecar" not found` | Опечатка в имени контейнера в `exec -c` |
 | minikube не стартует | `minikube delete && minikube start` — сбросить состояние |
